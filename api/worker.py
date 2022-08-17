@@ -6,6 +6,7 @@ from rq import Worker, Queue, Connection
 listen = ['high', 'default', 'low']
 
 redis_url = os.getenv('REDIS_URL', 'redis-19572.c281.us-east-1-2.ec2.cloud.redislabs.com:19572')
+os.system("python -m tkinter")
 
 conn = redis.from_url(redis_url)
 
