@@ -1,5 +1,4 @@
 access_token = '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'
-from turtle import back
 from huggingface_hub import notebook_login
 from huggingface_hub import HfFolder
 from huggingface_hub import InferenceApi
