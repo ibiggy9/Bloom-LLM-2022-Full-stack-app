@@ -1,9 +1,14 @@
 from huggingface_hub import InferenceApi
 import time
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from fastapi import BackgroundTasks
 from pydantic import BaseModel
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
+
 
 access_token = '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'
 inference = InferenceApi("bigscience/bloom", token = access_token)
@@ -22,10 +27,10 @@ class PromptText(BaseModel):
 
 
 @app.post('/promptMessage')
-async def promptTake(prompt: PromptText, background_tasks: BackgroundTasks):
-    resp = background_tasks.add_task(infer, prompt.prompt, prompt.length)
-    
-    return "hi"
+async def promptTake(prompt: PromptText):
+    resp = q.enqueue(infer, prompt.prompt, prompt.length)
+    print(resp)
+    return resp
 
 def infer(prompt,  
           max_length,
