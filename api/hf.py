@@ -36,6 +36,7 @@ class PromptText(BaseModel):
 @app.post('/promptMessage')
 async def promptTake(prompt: PromptText):
     resp = q.enqueue(infer, prompt.prompt, prompt.length)
+    print(resp)
     return resp
 
 def infer(prompt,  
@@ -78,6 +79,7 @@ def infer(prompt,
     text = list(response[0].items())[0] 
     finalText = text[1]
     #.replace("\n", '')
+    print(finalText)
     return finalText
 
 
