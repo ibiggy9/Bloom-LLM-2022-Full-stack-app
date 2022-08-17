@@ -1,3 +1,4 @@
+from urllib import response
 from huggingface_hub import InferenceApi
 import time
 import os
@@ -5,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from pydantic import BaseModel
 from rq import Queue
+from rq.job import Job
 from worker import conn
 
 q = Queue(connection=conn)
@@ -25,12 +27,31 @@ class PromptText(BaseModel):
     prompt: str
     length: int
 
+class Result(BaseModel):
+    jobID: str
+
+class Status(BaseModel):
+    jobID: str
+
+@app.post('/getStatus')
+async def status(status: Status):
+    job = Job.fetch(status.jobID, connection=conn)
+    return job.get_status()
+
+@app.post('/getResult')
+async def result(res: Result):
+    task = Job.fetch(res.jobID, connection=conn)
+    return task.result
+
 
 @app.post('/promptMessage')
 async def promptTake(prompt: PromptText):
     resp = q.enqueue(infer, prompt.prompt, prompt.length)
     
     return resp.get_id()
+
+
+
 
 def infer(prompt,  
           max_length,
