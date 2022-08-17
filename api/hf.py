@@ -1,22 +1,9 @@
-access_token = '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'
-from huggingface_hub import notebook_login
-from huggingface_hub import HfFolder
 from huggingface_hub import InferenceApi
 import time
-import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from fastapi import BackgroundTasks
 from pydantic import BaseModel
-import json
-from email.message import EmailMessage
-import smtplib
-import traceback
-from rq import Queue
-from worker import conn
-
-q = Queue(connection=conn)
-
 
 access_token = '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'
 inference = InferenceApi("bigscience/bloom", token = access_token)
@@ -38,7 +25,7 @@ class PromptText(BaseModel):
 async def promptTake(prompt: PromptText, background_tasks: BackgroundTasks):
     resp = background_tasks.add_task(infer, prompt.prompt, prompt.length)
     
-    return resp
+    return "hi"
 
 def infer(prompt,  
           max_length,
