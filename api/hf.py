@@ -1,4 +1,5 @@
 access_token = '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'
+from turtle import back
 from huggingface_hub import notebook_login
 from huggingface_hub import HfFolder
 from huggingface_hub import InferenceApi
@@ -6,6 +7,7 @@ import time
 import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
+from fastapi import BackgroundTasks
 from pydantic import BaseModel
 import json
 from email.message import EmailMessage
@@ -34,9 +36,9 @@ class PromptText(BaseModel):
 
 
 @app.post('/promptMessage')
-async def promptTake(prompt: PromptText):
-    resp = q.enqueue(infer, prompt.prompt, prompt.length)
-    print(resp)
+async def promptTake(prompt: PromptText, background_tasks: BackgroundTasks):
+    resp = background_tasks.add_task(infer, prompt.prompt, prompt.length)
+    
     return resp
 
 def infer(prompt,  
