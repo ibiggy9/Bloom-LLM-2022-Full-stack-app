@@ -29,8 +29,8 @@ class PromptText(BaseModel):
 @app.post('/promptMessage')
 async def promptTake(prompt: PromptText):
     resp = q.enqueue(infer, prompt.prompt, prompt.length)
-    print(resp)
-    return resp
+    
+    return resp.get_id()
 
 def infer(prompt,  
           max_length,
