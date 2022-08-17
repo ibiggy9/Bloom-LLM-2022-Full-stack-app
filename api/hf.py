@@ -35,12 +35,12 @@ class Status(BaseModel):
 
 @app.post('/getStatus')
 async def status(status: Status):
-    job = Job.fetch(status.jobID, connection=conn)
+    job = await Job.fetch(status.jobID, connection=conn)
     return job.get_status()
 
 @app.post('/getResult')
 async def result(res: Result):
-    task = Job.fetch(res.jobID, connection=conn)
+    task = await Job.fetch(res.jobID, connection=conn)
     return task.result
 
 
