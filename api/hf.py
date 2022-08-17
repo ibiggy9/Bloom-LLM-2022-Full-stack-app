@@ -11,6 +11,11 @@ import json
 from email.message import EmailMessage
 import smtplib
 import traceback
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
+
 
 access_token = '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'
 inference = InferenceApi("bigscience/bloom", token = access_token)
@@ -30,7 +35,7 @@ class PromptText(BaseModel):
 
 @app.post('/promptMessage')
 async def promptTake(prompt: PromptText):
-    resp = infer(prompt.prompt, prompt.length)
+    resp = q.enqueue(infer, prompt.prompt, prompt.length)
     return resp
 
 def infer(prompt,  
