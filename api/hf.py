@@ -56,7 +56,8 @@ async def promptTake(prompt: PromptText):
         resp = q.enqueue(infer, prompt.prompt, prompt.length)
         return resp.get_id()
     else:
-        infer(prompt.prompt, prompt.length)
+        resp = infer(prompt.prompt, prompt.length)
+        return resp
 
 
 def infer(prompt,  
