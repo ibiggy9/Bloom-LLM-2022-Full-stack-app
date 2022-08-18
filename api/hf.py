@@ -33,15 +33,7 @@ class Result(BaseModel):
 class Status(BaseModel):
     jobID: str
 
-@app.post('getPosition')
-async def position(status: Status):
-    job = job.fetch(status.jobID, connection=conn)
-    
-    position = q.get_job_position(job)
-    if(position):
-        return position
-    else: 
-        return "nothing"
+
 
 @app.post('/getStatus')
 async def status(status: Status):
@@ -58,6 +50,8 @@ async def result(res: Result):
 async def promptTake(prompt: PromptText):
     if prompt.length > 50:
         resp = q.enqueue(infer, prompt.prompt, prompt.length)
+        id = resp.get_id()
+        print(id)
         return resp.get_id()
     else:
         resp = infer(prompt.prompt, prompt.length)
