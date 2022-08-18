@@ -39,6 +39,7 @@ class Status(BaseModel):
 async def status(status: Status):
     job = Job.fetch(status.jobID, connection=conn)
     position = q.get_job_position(status.jobID)
+    
     print(position)
     return job.get_status()
 
