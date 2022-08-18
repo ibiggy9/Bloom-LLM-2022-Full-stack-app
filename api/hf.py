@@ -36,8 +36,12 @@ class Status(BaseModel):
 @app.post('getPosition')
 async def position(status: Status):
     job = job.fetch(status.jobID, connection=conn)
-    position = job.get_position()
-    return position
+    
+    position = q.get_job_position(job)
+    if(position):
+        return position
+    else: 
+        return "nothing"
 
 @app.post('/getStatus')
 async def status(status: Status):
