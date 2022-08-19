@@ -100,7 +100,7 @@ def infer(prompt,
 
     #Why error?
     print(response)
-    text = list(response[0].items())[0] 
+    #text = list(response[0].items())[0] 
     finalText = text[1]
     #.replace("\n", '')
     print(finalText)
