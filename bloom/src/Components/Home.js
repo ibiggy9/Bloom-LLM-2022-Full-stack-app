@@ -100,7 +100,7 @@ export default function Home() {
   }
 
   async function checkJob(){
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise(r => setTimeout(r, 1000));
     let cursec = (new Date().getTime())/1000
     setCurTime(cursec- seconds)
     setJobChecked((prev)=> !prev)
