@@ -74,7 +74,7 @@ export default function Home() {
 
   async function startJob(){
     
-    console.log("Starting Job")
+    console.log("Starting Jobs")
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     
