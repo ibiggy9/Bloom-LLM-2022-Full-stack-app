@@ -97,6 +97,7 @@ def infer(prompt,
     #print(response)
     proc_time = time.time()-s
     #print(f"Processing time was {proc_time} seconds")
+    print(response)
     text = list(response[0].items())[0] 
     finalText = text[1]
     #.replace("\n", '')
