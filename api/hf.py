@@ -12,7 +12,7 @@ from worker import conn
 q = Queue(connection=conn)
 
 
-access_token = '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'
+access_token = 'Your hugging face API'
 inference = InferenceApi("bigscience/bloom", token = access_token)
 app = FastAPI()
 app.add_middleware(
